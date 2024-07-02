@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            border: 2px solid #333;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+        .password {
+            font-style: italic;
+            position: relative;
+        }
+        .reveal-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 14px;
+            color: blue;
+            text-decoration: underline;
+        }
+        .reveal-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .reveal-icon img {
+            width: 20px;
+            height: auto;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        var email = getQueryParam('email');
+        var password = getQueryParam('password');
+
+        function greetUser() {
+            var greeting = document.getElementById('greeting');
+            greeting.textContent = "Welcome, " + decodeURIComponent(email) + "!";
+        }
+
+        function displayUserData() {
+            var emailElement = document.getElementById('email');
+            var passwordElement = document.getElementById('password');
+
+            emailElement.textContent = decodeURIComponent(email);
+            passwordElement.innerHTML = "••••••••" + 
+                '<span class="reveal-icon" onclick="togglePasswordVisibility()"><img src="eye-icon.png" alt="Show Password"></span>';
+        }
+
+        function revealPassword() {
+            var passwordElement = document.getElementById('password');
+            passwordElement.innerHTML = decodeURIComponent(password) + 
+                '<span class="reveal-icon" onclick="togglePasswordVisibility()"><img src="eye-slash-icon.png" alt="Hide Password"></span>';
+        }
+
+        function hidePassword() {
+            var passwordElement = document.getElementById('password');
+            passwordElement.innerHTML = "••••••••" + 
+                '<span class="reveal-icon" onclick="togglePasswordVisibility()"><img src="eye-icon.png" alt="Show Password"></span>';
+        }
+
+        var passwordVisible = false;
+
+        function togglePasswordVisibility() {
+            if (passwordVisible) {
+                hidePassword();
+                passwordVisible = false;
+            } else {
+                revealPassword();
+                passwordVisible = true;
+            }
+        }
+
+        window.onload = function() {
+            greetUser();
+            displayUserData();
+        };
+    </script>
+</head>
+<body>
+    <h1 id="greeting">Welcome, User!</h1>
+    <table>
+        <tr>
+            <th>Email ID</th>
+            <td id="email"></td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td id="password" class="password">••••••••
+                <span class="reveal-icon" onclick="togglePasswordVisibility()"><img src="eye-icon.png" alt="Show Password"></span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
